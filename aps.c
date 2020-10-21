@@ -2,13 +2,14 @@
 #include <stdlib.h>
 #include <time.h>
 
-// Nome do arquivo binario que contem os numeros
+// Nome do arquivo binário que contém os números
 #define ARQUIVO "vetor_100000.txt"
 
-// Quantidade de numeros que serao ordenados
+// Quantidade de números que serão ordenados
 enum {QNT_IMAGENS = 100000};
 
-//===============================================
+enum {INICIO, MEIO, FIM};
+
 void insertionSort(int arr[], int n) {
     int i, key, j;
 
@@ -25,15 +26,15 @@ void insertionSort(int arr[], int n) {
         arr[j + 1] = key;
     }
 }
-//===============================================
+
 void selectionSort(int arr[], int n) { 
     int i, j, min, aux;
 
-    for (i = 0; i < (n-1); i++) {
+    for (i = 0; i < (n - 1); i++) {
 
         min = i;
 
-        for (j = (i+1); j < n; j++) {
+        for (j = (i + 1); j < n; j++) {
 
             if (arr[j] < arr[min])
                 min = j;
@@ -46,48 +47,40 @@ void selectionSort(int arr[], int n) {
         }
     }
 }
-//===============================================
-int quickSort_partition(int arr[], int start, int end) {
-    int i = start;
-    int j, aux;
 
-    for (j = start; j < end; j++) {
+void quickSort(int arr[], int first, int last) {
+    int i, j, pivot, aux;
+    i = first;
+    j = last;
+    pivot = arr[first];
 
-        if (arr[j] < arr[end]) {
+    while(i <= j) {
+
+        while(arr[i] < pivot && i < last)
+            i++;
+
+        while(arr[j] > pivot && j > first)
+            j--;
+
+        if(i <= j) {
             aux = arr[i];
             arr[i] = arr[j];
             arr[j] = aux;
             i++;
+            j--;
         }
     }
 
-    aux = arr[i];
-    arr[i] = arr[end];
-    arr[end] = aux;
-
-    return i;
+    if(j > first)
+        quickSort(arr, first, j);
+    
+    if(i < last)
+        quickSort(arr, i, last);
 }
-
-void quickSort_sort(int arr[], int start, int end) {
-    int pivot;
-
-    if (start < end) {
-
-        pivot = quickSort_partition(arr, start, end);
-
-        quickSort_sort(arr, start, pivot - 1);
-        quickSort_sort(arr, pivot + 1, end);
-    }
-}
-
-void quickSort(int arr[], int n) {
-    quickSort_sort(arr, 0, n - 1);
-}
-//===============================================
 
 /* Preenche o vetor com os valores contidos no arquivo
-que sera retornado pela funcao
-Cria o arquivo se ele nao existir */
+que será retornado pela função
+Cria o arquivo se ele não existir */
 FILE* iniciaVetor(int vet[]) {
     FILE *arq;
     int i;
@@ -102,7 +95,7 @@ FILE* iniciaVetor(int vet[]) {
 
         for (i = 0; i < QNT_IMAGENS; i++) {
 
-            // Gera um numero inteiro aleatorio na faixa de -500000 a 499999
+            // Gera um número inteiro aleatório na faixa de -500000 a 499999
             vet[i] = 1000 * (rand() % 1000) + (rand() % 1000) - 500000;
         }
 
@@ -125,11 +118,27 @@ FILE* iniciaVetor(int vet[]) {
     return arq;
 }
 
-/* Retorna para o comeco do arquivo e preenche o vetor
+/* Retorna para o começo do arquivo e preenche o vetor
 novamente com os valores iniciais */
 void reiniciaVetor(int vet[], FILE *arq) {
 	rewind(arq);
 	fread(vet, sizeof(int), QNT_IMAGENS, arq);
+}
+
+void ordenaPercentualmente(int vet[], float porcentagem, int posicao) {
+    int tamanho = porcentagem * QNT_IMAGENS;
+
+    switch (posicao) {
+        case INICIO:
+            quickSort(vet, 0, tamanho - 1);
+            break;
+        case MEIO:
+            quickSort(vet, (QNT_IMAGENS / 2) - (tamanho / 2), (QNT_IMAGENS / 2) + (tamanho / 2) - 1);
+            break;
+        case FIM:
+            quickSort(vet, QNT_IMAGENS - tamanho, QNT_IMAGENS - 1);
+            break;
+    }
 }
 
 void imprimeVetor(int vet[]) {
@@ -151,51 +160,70 @@ int main() {
 	int vetor[QNT_IMAGENS];
     clock_t tempo;
     double tempo_total;
+    float porcentagem;
+    int posicao;
 
     arquivo = iniciaVetor(vetor);
 
-	imprimeVetor(vetor);
+    for (porcentagem = 0; porcentagem < 1; porcentagem += 0.25) {
+        
+        for (posicao = INICIO; posicao <= FIM; posicao++) {
 
-    //=== Insertionsort
+            ordenaPercentualmente(vetor, porcentagem, posicao);
+            //imprimeVetor(vetor);
+            printf("Vetor %.f%% ordenado no %d\n", porcentagem * 100, posicao);
 
-    tempo = clock(); // Tempo inicial
-	insertionSort(vetor, QNT_IMAGENS);
-    tempo = clock() - tempo; // Tempo final - inicial
+            //=== Insertionsort
 
-    tempo_total = ((double) tempo) / CLOCKS_PER_SEC; // Tempo em segundos
+            tempo = clock(); // Tempo inicial
+            insertionSort(vetor, QNT_IMAGENS);
+            tempo = clock() - tempo; // Tempo final - inicial
 
-	printf("\nInsertionsort\nTempo total: %.3lf segundos\n", tempo_total);
-	imprimeVetor(vetor);
+            tempo_total = ((double) tempo) / CLOCKS_PER_SEC; // Tempo em segundos
 
-    //=== Selectionsort
+            printf("\nInsertionsort\nTempo total: %.3lf segundos\n", tempo_total);
+            //imprimeVetor(vetor);
 
-	reiniciaVetor(vetor, arquivo);
+            //=== Selectionsort
 
-    tempo = clock(); // Tempo inicial
-	selectionSort(vetor, QNT_IMAGENS);
-    tempo = clock() - tempo; // Tempo final - inicial
+            reiniciaVetor(vetor, arquivo);
+            ordenaPercentualmente(vetor, porcentagem, posicao);
 
-    tempo_total = ((double) tempo) / CLOCKS_PER_SEC; // Tempo em segundos
+            tempo = clock(); // Tempo inicial
+            selectionSort(vetor, QNT_IMAGENS);
+            tempo = clock() - tempo; // Tempo final - inicial
 
-	printf("\nSelectionsort\nTempo total: %.3lf segundos\n", tempo_total);
-	imprimeVetor(vetor);
+            tempo_total = ((double) tempo) / CLOCKS_PER_SEC; // Tempo em segundos
 
-    //=== Quicksort
+            printf("\nSelectionsort\nTempo total: %.3lf segundos\n", tempo_total);
+            //imprimeVetor(vetor);
 
-    reiniciaVetor(vetor, arquivo);
+            //=== QuickSort
 
-    tempo = clock(); // Tempo inicial
-    quickSort(vetor, QNT_IMAGENS);
-    tempo = clock() - tempo; // Tempo final - inicial
+            reiniciaVetor(vetor, arquivo);
+            ordenaPercentualmente(vetor, porcentagem, posicao);
 
-    tempo_total = ((double) tempo) / CLOCKS_PER_SEC; // Tempo em segundos
+            tempo = clock(); // Tempo inicial
+            quickSort(vetor, 0, QNT_IMAGENS - 1);
+            tempo = clock() - tempo; // Tempo final - inicial
 
-    printf("\nQuicksort\nTempo total: %.3lf segundos\n", tempo_total);
-    imprimeVetor(vetor);
+            tempo_total = ((double) tempo) / CLOCKS_PER_SEC; // Tempo em segundos
+
+            printf("\nQuicksort\nTempo total: %.3lf segundos\n", tempo_total);
+            //imprimeVetor(vetor);
+
+            printf("\n===============================\n\n");
+
+            reiniciaVetor(vetor, arquivo);
+            
+            if (porcentagem == 0)
+                break;
+        }
+    }
 
 	fclose(arquivo);
 
-	printf("\nPressione a tecla Enter para continuar. . . ");
+	printf("Pressione a tecla Enter para continuar. . . ");
 	getchar();
 	return 0;
 }
