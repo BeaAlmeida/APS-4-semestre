@@ -8,8 +8,10 @@
 // Nome do arquivo texto que contem os resultados das ordenacoes
 #define ARQ_SAIDA "saida.txt"
 
+// Nome do arquivo binario com o vetor ordenado
 #define ARQ_VET_ORD "vetor_ordenado.txt"
 
+// Nome do arquivo binario com o vetor percentualmente ordenado
 #define ARQ_VET_PCTO "vetor_percentualmente_ordenado.txt"
 
 // Quantidade de numeros que serao ordenados
@@ -128,6 +130,7 @@ void iniciaVetorDesordenado(int vet[]) {
     fclose(arq);
 }
 
+// Ordena o vetor e escreve o resultado em um arquivo
 void iniciaVetorOrdenado(int vet[]) {
     FILE *arq;
 
@@ -140,7 +143,7 @@ void iniciaVetorOrdenado(int vet[]) {
     fclose(arq);
 }
 
-/* Preenche o vetor com os valores contidos no arquivo */
+// Preenche o vetor com os valores contidos no arquivo
 void sobrescreverVetor(int vet[], char nome_arq[]) {
 	FILE *arq;
 
@@ -151,11 +154,12 @@ void sobrescreverVetor(int vet[], char nome_arq[]) {
     fclose(arq);
 }
 
+// Troca a posicao dos numeros do vetor aleatoriamente para desordenar
 void embaralhaVetor(int vet[], int primeiro, int ultimo) {
     int i, j, aux;
     int faixa = (ultimo - primeiro) / 100;
 
-    srand(1);
+    srand(1); // define uma semente fixa para gerar sempre os mesmos numeros aleatorios
 
     for (i = primeiro; i < ultimo; i++) {
         
@@ -169,8 +173,8 @@ void embaralhaVetor(int vet[], int primeiro, int ultimo) {
     }
 }
 
-/* Ordena uma porcentagem de um vetor desordenado
-A ordenacao pode ser feita com os elementos do inicio, meio, ou final do vetor */
+/* Ordena uma porcentagem de um vetor desordenado e escreve o resultado em um arquivo
+A ordenacao pode ser feita no inicio, meio, ou final do vetor */
 void ordenaPercentualmente(int vet[], float porcentagem, int posicao) {
     FILE *arq;
     int tamanho = (1 - porcentagem) * QNT_IMAGENS;
