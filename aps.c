@@ -15,7 +15,7 @@
 #define ARQ_VET_PCTO "vetor_percentualmente_ordenado.txt"
 
 // Quantidade de numeros que serao ordenados
-enum {QNT_IMAGENS = 100000};
+enum {QNT_IMAGENS = 1000000};
 
 // Indicadores de qual parte do vetor ordenar
 enum {INICIO, MEIO, FIM};
