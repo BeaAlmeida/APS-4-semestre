@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-// Nome do arquivo binario que contem um vetor desordenado com um milhao de posicoes
-#define ARQ_VET_DESORD "vetor_1000000_desordenado.txt"
+// Nome do arquivo binario que contem um vetor desordenado com cem mil posicoes
+#define ARQ_VET_DESORD "vetor_desordenado.txt"
 
 // Nome do arquivo texto que contem os resultados das ordenacoes
-#define ARQ_SAIDA "saida.txt"
+#define ARQ_SAIDA "resultado.txt"
 
 // Nome do arquivo binario com o vetor ordenado
 #define ARQ_VET_ORD "vetor_ordenado.txt"
@@ -15,7 +15,7 @@
 #define ARQ_VET_PCTO "vetor_percentualmente_ordenado.txt"
 
 // Quantidade de numeros que serao ordenados
-enum {QNT_IMAGENS = 1000000};
+enum {QNT_IMAGENS = 100000};
 
 // Indicadores de qual parte do vetor ordenar
 enum {INICIO, MEIO, FIM};
@@ -37,7 +37,7 @@ void insertionSort(int arr[], int n) {
     }
 }
 
-void selectionSort(int arr[], int n) { 
+void selectionSort(int arr[], int n) {
     int i, j, min, aux;
 
     for (i = 0; i < (n - 1); i++) {
@@ -87,7 +87,7 @@ void quickSort(int arr[], int first, int last) {
 
     if(j > first)
         quickSort(arr, first, j + 1);
-    
+
     if(i < last)
         quickSort(arr, i, last);
 }
@@ -102,12 +102,12 @@ void iniciaVetorDesordenado(int vet[]) {
 
     if (arq == NULL) {
         int num;
-        
+
         arq = fopen(ARQ_VET_DESORD, "wb");
 
         srand(time(NULL));
 
-        for (i = 0; i < 1000000; i++) {
+        for (i = 0; i < 100000; i++) {
 
             // Gera um numero inteiro aleatorio na faixa de -1000000 a 999999
             num = 1000 * (rand() % 2000) + (rand() % 1000) - 1000000;
@@ -159,10 +159,10 @@ void embaralhaVetor(int vet[], int primeiro, int ultimo) {
     int i, j, aux;
     int faixa = (ultimo - primeiro) / 100;
 
-    srand(1); // define uma semente fixa para gerar sempre os mesmos numeros aleatorios
+    srand(1); // Define uma semente fixa para gerar sempre os mesmos numeros aleatorios
 
     for (i = primeiro; i < ultimo; i++) {
-        
+
         j = 100 * (rand() % faixa) + (rand() % 100) + primeiro;
 
         if (vet[i] != vet[j]) {
@@ -207,20 +207,6 @@ void ordenaPercentualmente(int vet[], float porcentagem, int posicao) {
     fclose(arq);
 }
 
-void imprimeVetor(int vet[]) {
-	int i;
-
-	for (i = 0; i < 5; i++) {
-		printf("%d ", vet[i]);
-	}
-
-	for (i = QNT_IMAGENS - 5; i < QNT_IMAGENS; i++) {
-		printf("%d ", vet[i]);
-	}
-
-	printf("\n");
-}
-
 int main() {
     FILE *arq_saida;
 	int vetor[QNT_IMAGENS];
@@ -237,7 +223,7 @@ int main() {
     fprintf(arq_saida, "\tComparação de métodos de ordenação com um vetor de %d posições\n\n\n", QNT_IMAGENS);
 
     for (porcentagem = 0; porcentagem < 1; porcentagem += 0.25) {
-        
+
         for (posicao = INICIO; posicao <= FIM; posicao++) {
 
             if (porcentagem == 0)
@@ -290,7 +276,7 @@ int main() {
 
             printf("\n\nTempo total: %lf segundos\n", tempo_total);
             fprintf(arq_saida, "\n\tSelectionsort\n\n\t\tTempo total: %lf segundos\n", tempo_total);
-            
+
             //=== QuickSort
 
             sobrescreverVetor(vetor, ARQ_VET_PCTO);
@@ -310,7 +296,7 @@ int main() {
             fputs("\n===============================================\n\n", arq_saida);
         }
     }
-    
+
     fclose(arq_saida);
 
 	printf("Pressione a tecla Enter para continuar. . . ");
