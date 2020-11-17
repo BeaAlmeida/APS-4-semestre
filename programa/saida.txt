@@ -1,0 +1,163 @@
+	Comparação de métodos de ordenação com um vetor de 100000 posições
+
+
+Vetor desordenado
+
+	Insertionsort
+
+		Tempo total: 7.330000 segundos
+
+	Selectionsort
+
+		Tempo total: 11.634000 segundos
+
+	Quicksort
+
+		Tempo total: 0.014000 segundos
+
+===============================================
+
+Vetor 25% ordenado no início
+
+	Insertionsort
+
+		Tempo total: 3.954000 segundos
+
+	Selectionsort
+
+		Tempo total: 11.614000 segundos
+
+	Quicksort
+
+		Tempo total: 0.011000 segundos
+
+===============================================
+
+Vetor 25% ordenado no meio
+
+	Insertionsort
+
+		Tempo total: 1.966000 segundos
+
+	Selectionsort
+
+		Tempo total: 11.601000 segundos
+
+	Quicksort
+
+		Tempo total: 0.010000 segundos
+
+===============================================
+
+Vetor 25% ordenado no fim
+
+	Insertionsort
+
+		Tempo total: 3.937000 segundos
+
+	Selectionsort
+
+		Tempo total: 11.609000 segundos
+
+	Quicksort
+
+		Tempo total: 0.011000 segundos
+
+===============================================
+
+Vetor 50% ordenado no início
+
+	Insertionsort
+
+		Tempo total: 1.734000 segundos
+
+	Selectionsort
+
+		Tempo total: 11.419000 segundos
+
+	Quicksort
+
+		Tempo total: 0.008000 segundos
+
+===============================================
+
+Vetor 50% ordenado no meio
+
+	Insertionsort
+
+		Tempo total: 0.865000 segundos
+
+	Selectionsort
+
+		Tempo total: 11.437000 segundos
+
+	Quicksort
+
+		Tempo total: 0.008000 segundos
+
+===============================================
+
+Vetor 50% ordenado no fim
+
+	Insertionsort
+
+		Tempo total: 1.725000 segundos
+
+	Selectionsort
+
+		Tempo total: 11.393000 segundos
+
+	Quicksort
+
+		Tempo total: 0.008000 segundos
+
+===============================================
+
+Vetor 75% ordenado no início
+
+	Insertionsort
+
+		Tempo total: 0.433000 segundos
+
+	Selectionsort
+
+		Tempo total: 11.420000 segundos
+
+	Quicksort
+
+		Tempo total: 0.006000 segundos
+
+===============================================
+
+Vetor 75% ordenado no meio
+
+	Insertionsort
+
+		Tempo total: 0.219000 segundos
+
+	Selectionsort
+
+		Tempo total: 11.626000 segundos
+
+	Quicksort
+
+		Tempo total: 0.006000 segundos
+
+===============================================
+
+Vetor 75% ordenado no fim
+
+	Insertionsort
+
+		Tempo total: 0.437000 segundos
+
+	Selectionsort
+
+		Tempo total: 11.618000 segundos
+
+	Quicksort
+
+		Tempo total: 0.006000 segundos
+
+===============================================
+
